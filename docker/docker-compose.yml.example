@@ -1,0 +1,27 @@
+# Finger Server — Docker Compose Example
+#
+# Start the server:
+#   cp .env.example .env
+#   docker compose up -d
+#
+# The server binds to port 8000. Put Traefik/nginx in front for TLS.
+#
+# For each user, run a separate service instance.
+
+services:
+  finger:
+    build:
+      context: ../server
+    container_name: finger-${FINGER_USER:-default}
+    env_file:
+      - .env
+    environment:
+      - FINGER_PLANS_DIR=/data/plans
+    volumes:
+      - finger_data:/data/plans
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+volumes:
+  finger_data:
