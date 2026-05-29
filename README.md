@@ -100,11 +100,12 @@ See `docs/protocol.md` for the full specification.
 
 ## Architecture
 
-```
-finger CLI  ── SRV lookup ──▶  _finger._tcp.example.com
-              ── HTTPS ──▶   finger.example.com:443
-                              └── /.well-known/finger?user=<user>
-                                  └── /data/plans/<user>.md + .meta
+```mermaid
+flowchart LR
+    CLI["finger CLI"]
+    CLI -->|"DNS SRV"| SRV["_finger._tcp.example.com"]
+    CLI -->|"HTTPS"| FINGER["finger.example.com:443<br>/.well-known/finger?user=&lt;user&gt;"]
+    FINGER --> PLAN["/data/plans/&lt;user&gt;.md + .meta"]
 ```
 
 ## License
